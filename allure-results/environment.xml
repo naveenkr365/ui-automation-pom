@@ -1,0 +1,14 @@
+<environment>
+    <parameter>
+        <key>Company</key>
+        <value>Freshworks</value>
+    </parameter>
+    <parameter>
+        <key>Team Name</key>
+        <value>ITPPM-QA</value>
+    </parameter>
+    <parameter>
+        <key>Project</key>
+        <value>Chargebee SKUs Testing</value>
+    </parameter>
+</environment>
