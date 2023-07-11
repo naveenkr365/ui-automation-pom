@@ -1,6 +1,6 @@
-package com.itppm.listener;
+package com.uiauto.listener;
 
-import com.itppm.base.BaseMethods;
+import com.uiauto.base.BaseMethods;
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;

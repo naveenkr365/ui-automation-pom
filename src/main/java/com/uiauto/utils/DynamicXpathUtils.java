@@ -1,4 +1,4 @@
-package com.itppm.utils;
+package com.uiauto.utils;
 
 public final class DynamicXpathUtils {
 

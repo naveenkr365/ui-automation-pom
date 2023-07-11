@@ -1,9 +1,9 @@
-package com.itppm.report;
+package com.uiauto.report;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
-import com.itppm.constants.FrameworkConstants;
+import com.uiauto.constants.FrameworkConstants;
 
 import java.awt.*;
 import java.io.File;

@@ -1,10 +1,10 @@
-package com.itppm.base;
+package com.uiauto.base;
 
 import com.github.javafaker.Faker;
 import com.google.common.util.concurrent.Uninterruptibles;
-import com.itppm.pages.fsales.SalesLoginPage;
-import com.itppm.report.ExtentReport;
-import com.itppm.utils.ReadExcelFile;
+import com.uiauto.pages.LoginPage;
+import com.uiauto.report.ExtentReport;
+import com.uiauto.utils.ReadExcelFile;
 import org.testng.annotations.*;
 
 import java.io.IOException;
@@ -39,16 +39,10 @@ public class BaseTest extends BaseMethods {
     }
 
     public void login() throws Exception {
-            new SalesLoginPage()
-                    .clickSignInGoogle()
-                    .enterGoogleEmail(getPropertyValue("gmailusername"))
-                    .clickGoogleNextWithWait()
-                    .clickGoogleNext()
-                    .enterEmail(getPropertyValue("username"))
-                    .clickNext()
+            new LoginPage()
+                    .enterUsername(getPropertyValue("username"))
                     .enterPassword(getPropertyValue("password"))
-                    .clickCloneSignin()
-                    .clickOnContinue();
-        Uninterruptibles.sleepUninterruptibly(30, TimeUnit.SECONDS);
+                    .clickLoginButton();
+        Uninterruptibles.sleepUninterruptibly(7, TimeUnit.SECONDS);
     }
 }

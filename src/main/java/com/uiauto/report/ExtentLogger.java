@@ -1,7 +1,7 @@
-package com.itppm.report;
+package com.uiauto.report;
 
 import com.aventstack.extentreports.MediaEntityBuilder;
-import com.itppm.base.BaseMethods;
+import com.uiauto.base.BaseMethods;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 

@@ -1,8 +1,8 @@
-package com.itppm.base;
+package com.uiauto.base;
 
 import com.google.common.util.concurrent.Uninterruptibles;
-import com.itppm.constants.FrameworkConstants;
-import com.itppm.report.ExtentLogger;
+import com.uiauto.constants.FrameworkConstants;
+import com.uiauto.report.ExtentLogger;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.internal.shadowed.jackson.core.JsonProcessingException;
 import io.qameta.allure.internal.shadowed.jackson.databind.JsonNode;
@@ -10,6 +10,10 @@ import io.qameta.allure.internal.shadowed.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.util.Units;
+import org.apache.poi.xwpf.usermodel.BreakType;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -19,7 +23,12 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.*;
 import java.util.List;
@@ -33,6 +42,11 @@ public class BaseMethods {
     public static Calendar obj = Calendar.getInstance();
     public static boolean flagforTitleScreen = true;
     public static ObjectMapper mapper;
+    public static DateFormat formatter = new SimpleDateFormat("dd-MM-yy-hh:mm:ss:SSS_aaa");
+    public static String document_name;
+    public static XWPFDocument docx = new XWPFDocument();
+    public static FileOutputStream out;
+
 
     public WebDriver initializeDriver(String browser) throws IOException {
         try {
@@ -581,6 +595,90 @@ public class BaseMethods {
 
     public static String getCurrentURL(){
         return driver.getCurrentUrl();
+    }
+
+    public static void captureScreenShot(XWPFDocument docx, XWPFRun run, FileOutputStream out) throws Exception {
+        String screenshot_name = System.currentTimeMillis() + ".png";
+        File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        BufferedImage image = ImageIO.read(screenshot);
+        File file = new File(System.getProperty("user.dir")  + "/reports/" + screenshot_name);
+        ImageIO.write(image, "png", file);
+        InputStream pic = new FileInputStream(System.getProperty("user.dir") + "/reports/" + screenshot_name);
+        run.addPicture(pic, XWPFDocument.PICTURE_TYPE_PNG, screenshot_name, Units.toEMU(650), Units.toEMU(350));
+        run.addBreak(BreakType.PAGE);
+        pic.close();
+        file.delete();
+    }
+
+    public static String getDocument_name(){
+        document_name = formatter.format(obj.getTime());
+        return document_name;
+    }
+
+    public static void writeToWord(String scenario,boolean close){
+        try {
+
+            if(flagforTitleScreen == true){
+                XWPFRun template = docx.createParagraph().createRun();
+                InputStream pic = new FileInputStream(System.getProperty("user.dir") + "/src/main/resources/Evidence_Template.png");
+                template.addPicture(pic, XWPFDocument.PICTURE_TYPE_PNG, "Evidence", Units.toEMU(650),Units.toEMU(490));
+                template.addBreak(BreakType.PAGE);
+            }
+            flagforTitleScreen = false;
+            XWPFRun text = docx.createParagraph().createRun();
+
+            // Formatting line1 by setting  bold
+            text.setBold(true);
+            text.setText(scenario);
+            text.addBreak();
+
+            XWPFRun run = docx.createParagraph().createRun();
+            out = new FileOutputStream(System.getProperty("user.dir") + "/reports/" + "Test_Evidence_"+getDocument_name()+".docx");
+            captureScreenShot(docx, run, out);
+            TimeUnit.SECONDS.sleep(1);
+
+            docx.write(out);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void writeToWord(String scenario,boolean close, boolean snap){
+        try {
+
+            if(flagforTitleScreen == true){
+                XWPFRun template = docx.createParagraph().createRun();
+                InputStream pic = new FileInputStream(System.getProperty("user.dir") + "/src/main/resources/Evidence_Template.png");
+                template.addPicture(pic, XWPFDocument.PICTURE_TYPE_PNG, "Evidence", Units.toEMU(520),Units.toEMU(490));
+                template.addBreak(BreakType.PAGE);
+            }
+            flagforTitleScreen = false;
+            XWPFRun text = docx.createParagraph().createRun();
+
+            // Formatting line1 by setting  bold
+            text.setBold(true);
+            text.setText(scenario);
+            //text.addBreak();
+
+            XWPFRun run = docx.createParagraph().createRun();
+            out = new FileOutputStream(System.getProperty("user.dir") + "/reports/" + "Test_Evidence_"+getDocument_name()+".docx");
+            if(snap){
+                captureScreenShot(docx, run, out);
+                TimeUnit.SECONDS.sleep(1);
+            }
+            docx.write(out);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void closeWord() throws IOException {
+        out.flush();
+        out.close();
+        docx.close();
+        flagforTitleScreen = true;
     }
     
 }

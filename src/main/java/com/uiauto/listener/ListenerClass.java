@@ -1,10 +1,10 @@
-package com.itppm.listener;
+package com.uiauto.listener;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import com.itppm.base.BaseMethods;
-import com.itppm.utils.ExtentReporterNG;
+import com.uiauto.base.BaseMethods;
+import com.uiauto.utils.ExtentReporterNG;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;

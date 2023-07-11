@@ -1,8 +1,8 @@
-package com.itppm.utils;
+package com.uiauto.utils;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
-import com.itppm.constants.FrameworkConstants;
+import com.uiauto.constants.FrameworkConstants;
 
 public class ExtentReporterNG {
     public static ExtentReports extent;

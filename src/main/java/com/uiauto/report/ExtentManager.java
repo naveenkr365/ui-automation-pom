@@ -1,4 +1,4 @@
-package com.itppm.report;
+package com.uiauto.report;
 
 import com.aventstack.extentreports.ExtentTest;
 
