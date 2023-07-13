@@ -1,1 +1,1 @@
-# ui_automation
+# ui_automation_pom
